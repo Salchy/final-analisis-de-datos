@@ -13,7 +13,7 @@ class Program
         bancos[0] = new Banco("Banco Provincia");
         bancos[1] = new Banco("Banco Nacion");
         bancos[2] = new Banco("Banco Hipotecario");
-  
+
         while (!closeApp)
         {
             Console.Clear();
@@ -32,10 +32,11 @@ class Program
             {
                 case "1":
                     SolicitarValoresHistoricos(bancos);
-                    mostrarvalores(bancos);
+                    CalcularPromediosAnuales(bancos);
                     break;
                 case "2":
-
+                    SolicitarValoresHistoricos(bancos);
+                    CalcularPromediosAnuales(bancos);
                     break;
                 case "0":
                     closeApp = true;
@@ -44,6 +45,7 @@ class Program
 
                 default:
                     Console.WriteLine("Opción no válida. Presione una tecla para continuar...");
+                    Console.Beep();
                     Console.ReadKey();
                     break;
             }
@@ -76,7 +78,24 @@ class Program
             Console.WriteLine();
         }
     }
-    public static void mostrarvalores(Banco[] bancos)
+
+    public static void CalcularPromediosAnuales(Banco[] bancos)
+    {
+        Console.WriteLine("Promedios anuales de las tasas de los bancos:");
+        for (int i = 0; i < bancos.Length; i++)
+        {
+            float suma = 0;
+            for (int anio = 1; anio <= 3; anio++)
+            {
+                suma += bancos[i].valoresHistoricos[anio - 1];
+            }
+            float promedio = suma / bancos.Length;
+            Console.WriteLine($"Banco {bancos[i].Nombre}: Promedio = {promedio}");
+        }
+        Console.WriteLine("Presione una tecla para continuar...");
+        Console.ReadKey();
+    }
+    public static void MostrarValores(Banco[] bancos)
     {
         Console.WriteLine("Valores históricos ingresados:");
         for (int i = 0; i < bancos.Length; i++)
@@ -89,6 +108,7 @@ class Program
             Console.WriteLine();
         }
         Console.WriteLine("Presione una tecla para continuar...");
-        Console.ReadKey();
+        
+        Console.ReadLine();
     }
 }

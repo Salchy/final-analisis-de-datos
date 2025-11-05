@@ -16,11 +16,23 @@ namespace App.app
         {
             int[] lenghtArray = CalculateColumnWidths();
 
+            // Imprimir las columnas (Títulos)
             for (int i = 0; i < Columnas.Count; i++)
             {
                 string columna = Columnas[i].NombreColumna;
                 int columnWidth = lenghtArray[i] + 2; // Espacio adicional para padding
                 Console.Write("| " + columna.PadRight(columnWidth - 1));
+            }
+
+            // Imprimir los items (Valores)
+            for (int i = 0; i < Items.Count; i++)
+            {
+                Console.CursorTop += 1;  // Mover a la siguiente línea
+                Console.CursorLeft = 0; // Reiniciar la posición del cursor al inicio de la línea
+                // TO DO: No funciona, debería ser una linea para un item (o row, como datagridlist de mta:sa) entero, con todas sus columnas ()
+                string item = Items[i].Valor;
+                int columnWidth = lenghtArray[Items[i].idColumna] + 2; // Espacio adicional para padding
+                Console.Write("| " + item.PadRight(columnWidth - 1));
             }
         }
 
@@ -28,6 +40,11 @@ namespace App.app
         {
             Columnas.Add(new Columna { IdColumna = Columnas.Count, NombreColumna = nombreColumna });
             return Columnas.Count;
+        }
+
+        public void addItem(int idColumn, string value)
+        {
+            Items.Add(new Item { idColumna = idColumn, Valor = value });
         }
 
         // Métodos privados:

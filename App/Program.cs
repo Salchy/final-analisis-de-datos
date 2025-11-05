@@ -66,6 +66,9 @@ class Program
         tabla.CreateColumn("Título");
         tabla.CreateColumn("Probando Nuevo Texto");
 
+        tabla.addItem(0, "2");
+        tabla.addItem(1, "Test");
+
         tabla.DrawTable();
     }
 

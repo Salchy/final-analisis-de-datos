@@ -90,7 +90,7 @@ class Program
                 suma += bancos[i].valoresHistoricos[anio - 1];
             }
             float promedio = suma / bancos.Length;
-            Console.WriteLine($"Banco {bancos[i].Nombre}: Promedio = {promedio}");
+            Console.WriteLine($"Banco {bancos[i].Nombre}: Promedio = {promedio.ToString("0.00")}");
         }
         Console.WriteLine("Presione una tecla para continuar...");
         Console.ReadKey();
@@ -103,7 +103,7 @@ class Program
             Console.WriteLine($"{bancos[i].Nombre}:");
             for (int anio = 1; anio <= 3; anio++)
             {
-                Console.WriteLine($"  Año {anio}: {bancos[i].valoresHistoricos[anio - 1]}");
+                Console.WriteLine($"  Año {anio}: {bancos[i].valoresHistoricos[anio - 1].ToString("0.00")}");
             }
             Console.WriteLine();
         }

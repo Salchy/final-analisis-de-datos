@@ -8,6 +8,8 @@ class Program
     {
         bool closeApp = false;
 
+        float capital;
+
         Banco[] bancos = new Banco[3];
 
         bancos[0] = new Banco("Banco Provincia");
@@ -31,10 +33,12 @@ class Program
             switch (opcion)
             {
                 case "1":
+                    capital = 850000f;
                     SolicitarValoresHistoricos(bancos);
                     CalcularPromediosAnuales(bancos);
                     break;
                 case "2":
+                    SolicitarCapital(out capital);
                     SolicitarValoresHistoricos(bancos);
                     CalcularPromediosAnuales(bancos);
                     break;
@@ -52,7 +56,7 @@ class Program
         }
     }
 
-    public static void SolicitarValoresHistoricos(Banco[] bancos)
+    private static void SolicitarValoresHistoricos(Banco[] bancos)
     {
         for (int i = 0; i < 3; i++)
         {
@@ -79,7 +83,7 @@ class Program
         }
     }
 
-    public static void CalcularPromediosAnuales(Banco[] bancos)
+    private static void CalcularPromediosAnuales(Banco[] bancos)
     {
         Console.WriteLine("Promedios anuales de las tasas de los bancos:");
         for (int i = 0; i < bancos.Length; i++)
@@ -95,20 +99,24 @@ class Program
         Console.WriteLine("Presione una tecla para continuar...");
         Console.ReadKey();
     }
-    public static void MostrarValores(Banco[] bancos)
+
+    private static void SolicitarCapital(out float capital)
     {
-        Console.WriteLine("Valores históricos ingresados:");
-        for (int i = 0; i < bancos.Length; i++)
+        float value;
+
+        while (true)
         {
-            Console.WriteLine($"{bancos[i].Nombre}:");
-            for (int anio = 1; anio <= 3; anio++)
+            Console.WriteLine("Ingrese el capital a invertir:");
+            string input = Console.ReadLine();
+            if (float.TryParse(input, out value))
             {
-                Console.WriteLine($"  Año {anio}: {bancos[i].valoresHistoricos[anio - 1].ToString("0.00")}");
+                capital = value;
+                break;
             }
-            Console.WriteLine();
+            else
+            {
+                Console.WriteLine("Valor inválido. Por favor, ingrese un número válido.");
+            }
         }
-        Console.WriteLine("Presione una tecla para continuar...");
-        
-        Console.ReadLine();
     }
 }

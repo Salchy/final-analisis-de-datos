@@ -8,7 +8,6 @@ namespace App.app
 {
     public class Item
     {
-        public int idColumna { get; set; }
-        public string Valor { get; set; }
+        public List<string> Row { get; set; } = new List<string>();
     }
 }

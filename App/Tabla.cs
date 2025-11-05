@@ -8,8 +8,8 @@ namespace App.app
 {
     public class Tabla
     {
-        public List<Columna> Columnas { get; set; } = new List<Columna>();
-        public List<Item> Items { get; set; } = new List<Item>();
+        public List<string> Columnas { get; set; } = new List<Columna>();
+        public List<string> Rows { get; set; } = new List<Item>();
 
         // Métodos públicos:
         public void DrawTable()
@@ -25,13 +25,13 @@ namespace App.app
             }
 
             // Imprimir los items (Valores)
-            for (int i = 0; i < Items.Count; i++)
+            for (int i = 0; i < Rows.Count; i++)
             {
                 Console.CursorTop += 1;  // Mover a la siguiente línea
                 Console.CursorLeft = 0; // Reiniciar la posición del cursor al inicio de la línea
                 // TO DO: No funciona, debería ser una linea para un item (o row, como datagridlist de mta:sa) entero, con todas sus columnas ()
-                string item = Items[i].Valor;
-                int columnWidth = lenghtArray[Items[i].idColumna] + 2; // Espacio adicional para padding
+                string item = Rows[i].Valor;
+                int columnWidth = lenghtArray[Rows[i].idColumna] + 2; // Espacio adicional para padding
                 Console.Write("| " + item.PadRight(columnWidth - 1));
             }
         }
@@ -42,7 +42,7 @@ namespace App.app
             return Columnas.Count;
         }
 
-        public void addItem(int idColumn, string value)
+        public void addItem(int row, int idColumn, string value)
         {
             Items.Add(new Item { idColumna = idColumn, Valor = value });
         }

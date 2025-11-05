@@ -44,7 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app\Banco.cs" />
+    <Compile Include="app\Columna.cs" />
+    <Compile Include="app\Item.cs" />
     <Compile Include="app\Program.cs" />
+    <Compile Include="app\Tabla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Final_Analisis_de_Datos.App;
+﻿using App.app;
+using Final_Analisis_de_Datos.App;
 using System;
 
 class Program
@@ -16,44 +17,56 @@ class Program
         bancos[1] = new Banco("Banco Nacion");
         bancos[2] = new Banco("Banco Hipotecario");
 
-        while (!closeApp)
-        {
-            Console.Clear();
-            Console.WriteLine("===== MENÚ PRINCIPAL =====");
-            Console.WriteLine("1 - Comenzar analisis ($850.000)");
-            Console.WriteLine("2 - Comenzar analisis ($ a elegir)");
-            Console.WriteLine("");
-            Console.WriteLine("0 - Salir");
-            Console.WriteLine("==========================");
-            Console.Write("Seleccione una opción: ");
+        //while (!closeApp)
+        //{
+        //    Console.Clear();
+        //    Console.WriteLine("===== MENÚ PRINCIPAL =====");
+        //    Console.WriteLine("1 - Comenzar analisis ($850.000)");
+        //    Console.WriteLine("2 - Comenzar analisis ($ a elegir)");
+        //    Console.WriteLine("");
+        //    Console.WriteLine("0 - Salir");
+        //    Console.WriteLine("==========================");
+        //    Console.Write("Seleccione una opción: ");
 
-            string opcion = Console.ReadLine();
-            Console.WriteLine();
+        //    string opcion = Console.ReadLine();
+        //    Console.WriteLine();
 
-            switch (opcion)
-            {
-                case "1":
-                    capital = 850000f;
-                    SolicitarValoresHistoricos(bancos);
-                    CalcularPromediosAnuales(bancos);
-                    break;
-                case "2":
-                    SolicitarCapital(out capital);
-                    SolicitarValoresHistoricos(bancos);
-                    CalcularPromediosAnuales(bancos);
-                    break;
-                case "0":
-                    closeApp = true;
-                    Console.WriteLine("Saliendo del programa...");
-                    break;
+        //    switch (opcion)
+        //    {
+        //        case "1":
+        //            capital = 850000f;
+        //            SolicitarValoresHistoricos(bancos);
+        //            CalcularPromediosAnuales(bancos);
+        //            break;
+        //        case "2":
+        //            SolicitarCapital(out capital);
+        //            SolicitarValoresHistoricos(bancos);
+        //            CalcularPromediosAnuales(bancos);
+        //            break;
+        //        case "0":
+        //            closeApp = true;
+        //            Console.WriteLine("Saliendo del programa...");
+        //            break;
 
-                default:
-                    Console.WriteLine("Opción no válida. Presione una tecla para continuar...");
-                    Console.Beep();
-                    Console.ReadKey();
-                    break;
-            }
-        }
+        //        default:
+        //            Console.WriteLine("Opción no válida. Presione una tecla para continuar...");
+        //            Console.Beep();
+        //            Console.ReadKey();
+        //            break;
+        //    }
+        //}
+        testingDrawTable();
+        Console.ReadKey();
+    }
+
+    private static void testingDrawTable()
+    {
+        Tabla tabla = new Tabla();
+        tabla.CreateColumn("Test");
+        tabla.CreateColumn("Título");
+        tabla.CreateColumn("Probando Nuevo Texto");
+
+        tabla.DrawTable();
     }
 
     private static void SolicitarValoresHistoricos(Banco[] bancos)

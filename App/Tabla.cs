@@ -8,8 +8,8 @@ namespace App.app
 {
     public class Tabla
     {
-        public List<string> Columnas { get; set; } = new List<Columna>();
-        public List<string> Rows { get; set; } = new List<Item>();
+        public List<string> Columnas { get; set; } = new List<string>();
+        public List<List<string>> Rows { get; set; } = new List<List<string>>();
 
         // Métodos públicos:
         public void DrawTable()
@@ -19,9 +19,15 @@ namespace App.app
             // Imprimir las columnas (Títulos)
             for (int i = 0; i < Columnas.Count; i++)
             {
-                string columna = Columnas[i].NombreColumna;
+                string columna = Columnas[i];
                 int columnWidth = lenghtArray[i] + 2; // Espacio adicional para padding
                 Console.Write("| " + columna.PadRight(columnWidth - 1));
+            }
+
+            Console.Write("\n");
+            for (int i = 0; i < 50; i++)
+            {
+                Console.Write("=");
             }
 
             // Imprimir los items (Valores)
@@ -29,22 +35,41 @@ namespace App.app
             {
                 Console.CursorTop += 1;  // Mover a la siguiente línea
                 Console.CursorLeft = 0; // Reiniciar la posición del cursor al inicio de la línea
-                // TO DO: No funciona, debería ser una linea para un item (o row, como datagridlist de mta:sa) entero, con todas sus columnas ()
-                string item = Rows[i].Valor;
-                int columnWidth = lenghtArray[Rows[i].idColumna] + 2; // Espacio adicional para padding
-                Console.Write("| " + item.PadRight(columnWidth - 1));
+
+                for (int j = 0; j < Rows[i].Count; j++)
+                {
+                    string item = Rows[i][j];
+                    int columnWidth = lenghtArray[j] + 2; // Espacio adicional para padding
+                    Console.Write("| " + item.PadRight(columnWidth - 1));
+
+                }
             }
         }
 
         public int CreateColumn(string nombreColumna)
         {
-            Columnas.Add(new Columna { IdColumna = Columnas.Count, NombreColumna = nombreColumna });
-            return Columnas.Count;
+            Columnas.Add(nombreColumna);
+            return Columnas.Count - 1;
         }
 
-        public void addItem(int row, int idColumn, string value)
+        public int addRow()
         {
-            Items.Add(new Item { idColumna = idColumn, Valor = value });
+            Rows.Add(new List<string>());
+            return Rows.Count - 1;
+        }
+
+        public void addValueToRow(int idRow, string value)
+        {
+            Rows[idRow].Add(value);
+        }
+
+        public void modifyRowValue(int row, int column, string value)
+        {
+            if (row >= Rows.Count || column >= Columnas.Count)
+            {
+                throw new IndexOutOfRangeException("Índice de fila o columna fuera de rango.");
+            }
+            Rows[row][column] = value;
         }
 
         // Métodos privados:
@@ -56,15 +81,18 @@ namespace App.app
             // Calcular el ancho máximo del título de cada columna
             for (int i = 0; i < Columnas.Count; i++)
             {
-                columnWidths[i] = Columnas[i].NombreColumna.Length;
+                columnWidths[i] = Columnas[i].Length;
             }
             // Calcular el ancho máximo de los datos en cada columna
-            for (int i = 0; i < Items.Count; i++)
+            for (int i = 0; i < Rows.Count; i++)
             {
-                int charsLength = Items[i].Valor.Length;
-                if (charsLength > columnWidths[Items[i].idColumna])
+                for (int j = 0; j < Rows[i].Count; j++)
                 {
-                    columnWidths[i] = charsLength;
+                    int charsLength = Rows[i][j].Length;
+                    if (charsLength > columnWidths[j])
+                    {
+                        columnWidths[j] = charsLength;
+                    }
                 }
             }
             return columnWidths;

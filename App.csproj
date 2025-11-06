@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="app\Banco.cs" />
     <Compile Include="app\Program.cs" />
+    <Compile Include="app\Tabla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

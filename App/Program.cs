@@ -1,4 +1,5 @@
 ﻿//using App.app;
+using App.app;
 using Final_Analisis_de_Datos.App;
 using System;
 
@@ -58,9 +59,6 @@ class Program
             Console.WriteLine("Presione una tecla para continuar...");
             Console.ReadKey();
         }
-        
-        //testingDrawTable();
-        //Console.ReadKey();
     }
 
     private static void testingDrawTable()
@@ -156,13 +154,20 @@ class Program
         double[] rendimientosTrimestral = punto3B(promedios, capital);
         double[] rendimientosMensual = punto3C(promedios, capital);
 
-        for (int i = 0; i < 3; i++)
-        {
-            Console.WriteLine("- " + bancos[i].Nombre + "\n");
-            Console.WriteLine("Anual: " + rendimientosAnual[i].ToString("0.00"));
-            Console.WriteLine("Trimetral: " + rendimientosTrimestral[i].ToString("0.00"));
-            Console.WriteLine("Mensual: " + rendimientosMensual[i].ToString("0.00"));
-        }
+        Tabla table = new Tabla();
+        table.CreateColumn("Banco");
+        table.CreateColumn("Capital inicial");
+        table.CreateColumn("TNA Promedio");
+        table.CreateColumn("Rendimiento");
+
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    Console.WriteLine("- " + bancos[i].Nombre + "\n");
+        //    Console.WriteLine("Anual: " + rendimientosAnual[i].ToString("0.00"));
+        //    Console.WriteLine("Trimetral: " + rendimientosTrimestral[i].ToString("0.00"));
+        //    Console.WriteLine("Mensual: " + rendimientosMensual[i].ToString("0.00"));
+        //}
+        Console.ReadKey();
     }
 
     // Analiza el anual

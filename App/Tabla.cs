@@ -23,6 +23,7 @@ namespace App.app
                 int columnWidth = lenghtArray[i] + 2; // Espacio adicional para padding
                 Console.Write("| " + columna.PadRight(columnWidth - 1));
             }
+            Console.Write("|");
 
             Console.Write("\n");
             for (int i = 0; i < 50; i++)
@@ -34,15 +35,15 @@ namespace App.app
             for (int i = 0; i < Rows.Count; i++)
             {
                 Console.CursorTop += 1;  // Mover a la siguiente línea
-                Console.CursorLeft = 0; // Reiniciar la posición del cursor al inicio de la línea
+                Console.CursorLeft = 0;  // Reiniciar la posición del cursor al inicio de la línea
 
                 for (int j = 0; j < Rows[i].Count; j++)
                 {
                     string item = Rows[i][j];
                     int columnWidth = lenghtArray[j] + 2; // Espacio adicional para padding
                     Console.Write("| " + item.PadRight(columnWidth - 1));
-
                 }
+                Console.Write("|");
             }
         }
 

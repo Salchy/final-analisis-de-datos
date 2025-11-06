@@ -154,11 +154,8 @@ class Program
         double[] rendimientosTrimestral = punto3B(promedios, capital);
         double[] rendimientosMensual = punto3C(promedios, capital);
 
-        Tabla table = new Tabla();
-        table.CreateColumn("Banco");
-        table.CreateColumn("Capital inicial");
-        table.CreateColumn("TNA Promedio");
-        table.CreateColumn("Rendimiento");
+        drawAnalisis(bancos, capital, promedios, rendimientosAnual, rendimientosTrimestral, rendimientosMensual);
+        Console.ReadKey();
 
         //for (int i = 0; i < 3; i++)
         //{
@@ -167,7 +164,25 @@ class Program
         //    Console.WriteLine("Trimetral: " + rendimientosTrimestral[i].ToString("0.00"));
         //    Console.WriteLine("Mensual: " + rendimientosMensual[i].ToString("0.00"));
         //}
-        Console.ReadKey();
+    }
+
+    private static void drawAnalisis(Banco[] bancos, float capital, float[] promedios, float[] rendimientosAnual, double[] rendimientosTrimestral, double[] rendimientosMensual)
+    {
+        Tabla table = new Tabla();
+
+        table.CreateColumn("Banco");
+        table.CreateColumn("Capital inicial");
+        table.CreateColumn("TNA Promedio");
+        for (int i = 0; i < 3; i++)
+        {
+            int newRow = table.addRow();
+            table.addValueToRow(newRow, bancos[i].Nombre);
+            table.addValueToRow(newRow, capital.ToString());
+            table.addValueToRow(newRow, promedios[i].ToString());
+        }
+
+        table.DrawTable();
+        
     }
 
     // Analiza el anual

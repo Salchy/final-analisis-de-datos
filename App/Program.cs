@@ -60,20 +60,6 @@ class Program
             Console.ReadKey();
         }
     }
-
-    private static void testingDrawTable()
-    {
-        //Tabla tabla = new Tabla();
-        //tabla.CreateColumn("Test");
-        //tabla.CreateColumn("Título");
-        //tabla.CreateColumn("Probando Nuevo Texto");
-
-        //tabla.addItem(0, "2");
-        //tabla.addItem(1, "Test");
-
-        //tabla.DrawTable();
-    }
-
     private static void SolicitarValoresHistoricos(Banco[] bancos)
     {
         for (int i = 0; i < 3; i++)
@@ -88,6 +74,18 @@ class Program
                     string input = Console.ReadLine();
                     if (float.TryParse(input, out valor))
                     {
+                        // validar que el flotante sea con coma y no con punto, para evitar bug
+                        if (input.Contains(","))
+                        {
+                            Console.WriteLine("Por favor, utilice un punto (.) para los decimales en lugar de la coma (,)");
+                            continue;
+                        }
+                        // Validar que sea positivo
+                        if (valor < 0)
+                        {
+                            Console.WriteLine("Por favor, ingrese un valor positivo.");
+                            continue;
+                        }
                         bancos[i].AgregarValorHistorico(anio, valor);
                         break;
                     }
@@ -135,6 +133,18 @@ class Program
             string input = Console.ReadLine();
             if (float.TryParse(input, out value))
             {
+                // validar que el flotante sea con coma y no con punto, para evitar bug   
+                if (input.Contains(","))
+                {
+                    Console.WriteLine("Por favor, utilice un punto (.) para los decimales en lugar de la coma (,)");
+                    continue;
+                }
+                // Validar numero positivo
+                if (value < 0)
+                {
+                    Console.WriteLine("Por favor, ingrese un valor positivo.");
+                    continue;
+                }
                 capital = value;
                 break;
             }

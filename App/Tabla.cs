@@ -15,6 +15,7 @@ namespace App.app
         public void DrawTable()
         {
             int[] lenghtArray = CalculateColumnWidths();
+            int totalWidth = lenghtArray.Sum() + (3 * Columnas.Count) + 1; // Ancho total de la tabla
 
             // Imprimir las columnas (Títulos)
             for (int i = 0; i < Columnas.Count; i++)
@@ -26,7 +27,7 @@ namespace App.app
             Console.Write("|");
 
             Console.Write("\n");
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < totalWidth; i++)
             {
                 Console.Write("=");
             }

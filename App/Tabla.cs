@@ -65,6 +65,12 @@ namespace App.app
             Rows[idRow].Add(value);
         }
 
+        public void clear()
+        {
+            Columnas = new List<string>();
+            Rows = new List<List<string>>();
+        }
+
         public void modifyRowValue(int row, int column, string value)
         {
             if (row >= Rows.Count || column >= Columnas.Count)

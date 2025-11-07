@@ -165,7 +165,6 @@ class Program
         double[] rendimientosMensual = punto3C(promedios, capital);
 
         drawAnalisis(bancos, capital, promedios, rendimientosAnual, rendimientosTrimestral, rendimientosMensual);
-        Console.ReadKey();
 
         //for (int i = 0; i < 3; i++)
         //{
@@ -187,12 +186,20 @@ class Program
         {
             int newRow = table.addRow();
             table.addValueToRow(newRow, bancos[i].Nombre);
-            table.addValueToRow(newRow, capital.ToString());
             table.addValueToRow(newRow, promedios[i].ToString());
         }
-
         table.DrawTable();
-        
+
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("Presione una tecla para continuar...");
+        Console.ReadKey();
+
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("----- Análisis de Inversiones -----");
+
+        table.clear();
     }
 
     // Analiza el anual

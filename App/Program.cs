@@ -62,15 +62,18 @@ class Program
     }
     private static void SolicitarValoresHistoricos(Banco[] bancos)
     {
+        // Obtener el año actual
+        int currentYear = DateTime.Now.Year;
         for (int i = 0; i < 3; i++)
         {
             Console.WriteLine($"Ingrese los valores historicos para {bancos[i].Nombre}:");
             for (int anio = 1; anio <= 3; anio++)
             {
                 float valor;
+                
                 while (true)
                 {
-                    Console.Write($"Año {anio}: ");
+                    Console.Write($"Año {currentYear - (3 - anio)}: ");
                     string input = Console.ReadLine();
                     if (float.TryParse(input, out valor))
                     {

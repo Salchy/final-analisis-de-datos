@@ -166,9 +166,9 @@ class Program
         Console.Clear();
 
         float[] promedios = CalcularPromediosAnuales(bancos);
-        float[] rendimientosAnual = punto3A(promedios, capital);
-        float[] rendimientosTrimestral = punto3B(promedios, capital);
-        float[] rendimientosMensual = punto3C(promedios, capital);
+        float[] rendimientosAnual = CalcularRendimientos(promedios, capital, 1);
+        float[] rendimientosTrimestral = CalcularRendimientos(promedios, capital, 4);
+        float[] rendimientosMensual = CalcularRendimientos(promedios, capital, 12);
 
         drawAnalisis(bancos, capital, promedios, rendimientosAnual, rendimientosTrimestral, rendimientosMensual);
         drawEvaluacion(bancos, capital, promedios, rendimientosAnual, rendimientosTrimestral, rendimientosMensual);
@@ -242,6 +242,7 @@ class Program
         Console.WriteLine();
         Console.WriteLine("----- Evaluación de Inversiones -----");
         Console.WriteLine("En el plan de ahorro de un año, la mejor opción es la siguiente:");
+        Console.WriteLine();
 
         table.CreateColumn("Banco");
         table.CreateColumn("TNA Promedio");
@@ -262,42 +263,17 @@ class Program
         Console.ReadKey();
     }
 
-    // Analiza el anual
-    private static float[] punto3A(float[] promedios, float capital)
+    private static float[] CalcularRendimientos(float[] promedios, float capital, int periodos)
     {
-        float[] ganancias = new float[3];
+        float[] ganancias = new float[promedios.Length];
+
         for (int i = 0; i < promedios.Length; i++)
         {
-            ganancias[i] = (promedios[i] / 100 * capital);
+            ganancias[i] = capitalizar(capital, promedios[i], periodos);
         }
 
         return ganancias;
     }
-
-    // Analiza el trimestral
-    private static float[] punto3B(float[] promedios, float capital)
-    {
-        float[] ganancias = new float[3];
-        for (int i = 0; i < 3; i++)
-        {
-            ganancias[i] = capitalizar(capital, promedios[i], 4);
-        }
-
-        return ganancias;
-    }
-
-    // Analiza el mensual
-    private static float[] punto3C(float[] promedios, float capital)
-    {
-        float[] ganancias = new float[3];
-        for (int i = 0; i < 3; i++)
-        {
-            ganancias[i] = capitalizar(capital, promedios[i], 12);
-        }
-
-        return ganancias;
-    }
-
     private static float capitalizar(float capital, float TNA, int periodos)
     {
         float capitalFinal;

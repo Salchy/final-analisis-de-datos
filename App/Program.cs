@@ -24,8 +24,8 @@ class Program
         {
             Console.Clear();
             Console.WriteLine("===== MENÚ PRINCIPAL =====");
-            Console.WriteLine("1 - Comenzar analisis ($850.000)");
-            Console.WriteLine("2 - Comenzar analisis ($ a elegir)");
+            Console.WriteLine("1 - Comenzar analisis");
+            Console.WriteLine("2 - Créditos");
             Console.WriteLine("");
             Console.WriteLine("0 - Salir");
             Console.WriteLine("==========================");
@@ -37,16 +37,13 @@ class Program
             switch (opcion)
             {
                 case "1":
-                    capital = 850000f;
+                    SolicitarCapital(out capital);
                     SolicitarValoresHistoricos(bancos);
                     MostrarPromedios(CalcularPromediosAnuales(bancos));
                     RealizarAnalisis(bancos, capital);
                     break;
                 case "2":
-                    SolicitarCapital(out capital);
-                    SolicitarValoresHistoricos(bancos);
-                    MostrarPromedios(CalcularPromediosAnuales(bancos));
-                    RealizarAnalisis(bancos, capital);
+                    mostrarCreditos();
                     break;
                 case "0":
                     closeApp = true;
@@ -63,6 +60,16 @@ class Program
             Console.ReadKey();
         }
     }
+    private static void mostrarCreditos()
+    {
+        Console.Clear();
+        Console.WriteLine("----- Créditos -----");
+        Console.WriteLine("Desarrollado por: Leandro Correa Gimenez");
+        Console.WriteLine("Fecha: Noviembre 2025");
+        Console.WriteLine("Gracias por utilizar mi aplicación.");
+        Console.WriteLine();
+    }
+
     private static void SolicitarValoresHistoricos(Banco[] bancos)
     {
         // Obtener el año actual
@@ -215,13 +222,13 @@ class Program
         string mejorModalidad = "";
         float mejorGanancia = 0;
 
-        for (int i = 0; i < bancos.Length; i++)
+        for (int i = 0; i < bancos.Length; i++) // analiza por BANCO
         {
-            for (int j = 0; j < 3; j++)
+            for (int j = 0; j < 3; j++) // analiza por RENDIMIENTO
             {
-                if (Rendimientos[i][j] > mejorGanancia)
+                if (Rendimientos[j][i] > mejorGanancia)
                 {
-                    mejorGanancia = Rendimientos[i][j];
+                    mejorGanancia = Rendimientos[j][i];
                     mejorBanco = i;
                     switch (j)
                     {
@@ -259,8 +266,6 @@ class Program
 
         Console.WriteLine();
         Console.WriteLine();
-        Console.WriteLine("Presione una tecla para continuar...");
-        Console.ReadKey();
     }
 
     private static float[] CalcularRendimientos(float[] promedios, float capital, int periodos)

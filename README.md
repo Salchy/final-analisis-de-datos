@@ -8,6 +8,7 @@ plazos fijos anuales de los últimos 3 años para cada banco.
 2. Calcular el promedio de las tasas anuales de cada banco.
 3. Evaluar la conveniencia de invertir el capital considerando 
 las siguientes modalidades:
+
 o Inversión por un año completo con la tasa anual 
 promedio.
 o Inversión por trimestres, calculando el rendimiento y 

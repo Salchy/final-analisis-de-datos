@@ -2,6 +2,8 @@
 using App.app;
 using Final_Analisis_de_Datos.App;
 using System;
+using System.Net;
+using System.Runtime.CompilerServices;
 
 class Program
 {
@@ -44,6 +46,7 @@ class Program
                     SolicitarCapital(out capital);
                     SolicitarValoresHistoricos(bancos);
                     MostrarPromedios(CalcularPromediosAnuales(bancos));
+                    RealizarAnalisis(bancos, capital);
                     break;
                 case "0":
                     closeApp = true;
@@ -70,7 +73,7 @@ class Program
             for (int anio = 1; anio <= 3; anio++)
             {
                 float valor;
-                
+
                 while (true)
                 {
                     Console.Write($"Año {currentYear - (3 - anio)}: ");
@@ -112,7 +115,7 @@ class Program
             {
                 suma += bancos[i].valoresHistoricos[anio];
             }
-            promedios[i] = suma / bancos.Length;
+            promedios[i] = (suma / bancos.Length);
         }
         return promedios;
     }
@@ -164,32 +167,31 @@ class Program
 
         float[] promedios = CalcularPromediosAnuales(bancos);
         float[] rendimientosAnual = punto3A(promedios, capital);
-        double[] rendimientosTrimestral = punto3B(promedios, capital);
-        double[] rendimientosMensual = punto3C(promedios, capital);
+        float[] rendimientosTrimestral = punto3B(promedios, capital);
+        float[] rendimientosMensual = punto3C(promedios, capital);
 
         drawAnalisis(bancos, capital, promedios, rendimientosAnual, rendimientosTrimestral, rendimientosMensual);
-
-        //for (int i = 0; i < 3; i++)
-        //{
-        //    Console.WriteLine("- " + bancos[i].Nombre + "\n");
-        //    Console.WriteLine("Anual: " + rendimientosAnual[i].ToString("0.00"));
-        //    Console.WriteLine("Trimetral: " + rendimientosTrimestral[i].ToString("0.00"));
-        //    Console.WriteLine("Mensual: " + rendimientosMensual[i].ToString("0.00"));
-        //}
+        drawEvaluacion(bancos, capital, promedios, rendimientosAnual, rendimientosTrimestral, rendimientosMensual);
     }
 
-    private static void drawAnalisis(Banco[] bancos, float capital, float[] promedios, float[] rendimientosAnual, double[] rendimientosTrimestral, double[] rendimientosMensual)
+    private static void drawAnalisis(Banco[] bancos, float capital, float[] promedios, float[] rendimientosAnual, float[] rendimientosTrimestral, float[] rendimientosMensual)
     {
         Tabla table = new Tabla();
 
         table.CreateColumn("Banco");
-        table.CreateColumn("Capital inicial");
         table.CreateColumn("TNA Promedio");
+        table.CreateColumn("Anual");
+        table.CreateColumn("Trimestral");
+        table.CreateColumn("Mensual");
+
         for (int i = 0; i < 3; i++)
         {
             int newRow = table.addRow();
             table.addValueToRow(newRow, bancos[i].Nombre);
-            table.addValueToRow(newRow, promedios[i].ToString());
+            table.addValueToRow(newRow, promedios[i].ToString("0.00") + " %");
+            table.addValueToRow(newRow, "$ " + rendimientosAnual[i].ToString("0.00"));
+            table.addValueToRow(newRow, "$ " + rendimientosTrimestral[i].ToString("0.00"));
+            table.addValueToRow(newRow, "$ " + rendimientosMensual[i].ToString("0.00"));
         }
         table.DrawTable();
 
@@ -197,12 +199,67 @@ class Program
         Console.WriteLine();
         Console.WriteLine("Presione una tecla para continuar...");
         Console.ReadKey();
+    }
+
+    private static void drawEvaluacion(Banco[] bancos, float capital, float[] promedios, float[] rendimientosAnual, float[] rendimientosTrimestral, float[] rendimientosMensual)
+    {
+        Tabla table = new Tabla();
+
+        float[][] Rendimientos = new float[3][];
+
+        Rendimientos[0] = rendimientosAnual;
+        Rendimientos[1] = rendimientosTrimestral;
+        Rendimientos[2] = rendimientosMensual;
+
+        int mejorBanco = 0;
+        string mejorModalidad = "";
+        float mejorGanancia = 0;
+
+        for (int i = 0; i < bancos.Length; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (Rendimientos[i][j] > mejorGanancia)
+                {
+                    mejorGanancia = Rendimientos[i][j];
+                    mejorBanco = i;
+                    switch (j)
+                    {
+                        case 0:
+                            mejorModalidad = "Anual";
+                            break;
+                        case 1:
+                            mejorModalidad = "Trimestral";
+                            break;
+                        case 2:
+                            mejorModalidad = "Mensual";
+                            break;
+                    }
+                }
+            }
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("----- Evaluación de Inversiones -----");
+        Console.WriteLine("En el plan de ahorro de un año, la mejor opción es la siguiente:");
+
+        table.CreateColumn("Banco");
+        table.CreateColumn("TNA Promedio");
+        table.CreateColumn("Modalidad");
+        table.CreateColumn("Ganancia");
+
+        table.addRow();
+        table.addValueToRow(0, bancos[mejorBanco].Nombre);
+        table.addValueToRow(0, promedios[mejorBanco].ToString("0.00") + " %");
+        table.addValueToRow(0, mejorModalidad);
+        table.addValueToRow(0, "$ " + mejorGanancia.ToString("0.00"));
+
+        table.DrawTable();
 
         Console.WriteLine();
         Console.WriteLine();
-        Console.WriteLine("----- Análisis de Inversiones -----");
-
-        table.clear();
+        Console.WriteLine("Presione una tecla para continuar...");
+        Console.ReadKey();
     }
 
     // Analiza el anual
@@ -211,33 +268,43 @@ class Program
         float[] ganancias = new float[3];
         for (int i = 0; i < promedios.Length; i++)
         {
-            ganancias[i] = promedios[i] / 100 * capital;
+            ganancias[i] = (promedios[i] / 100 * capital);
         }
 
         return ganancias;
     }
 
     // Analiza el trimestral
-    private static double[] punto3B(float[] promedios, float capital)
+    private static float[] punto3B(float[] promedios, float capital)
     {
-        double[] ganancias = new double[3];
+        float[] ganancias = new float[3];
         for (int i = 0; i < 3; i++)
         {
-            ganancias[i] = Math.Pow(Math.Pow((1 + promedios[i] / 100f), 0.25), 4);
+            ganancias[i] = capitalizar(capital, promedios[i], 4);
         }
 
         return ganancias;
     }
 
     // Analiza el mensual
-    private static double[] punto3C(float[] promedios, float capital)
+    private static float[] punto3C(float[] promedios, float capital)
     {
-        double[] ganancias = new double[3];
+        float[] ganancias = new float[3];
         for (int i = 0; i < 3; i++)
         {
-            ganancias[i] = Math.Pow(Math.Pow((1 + promedios[i] / 100f), 1/12), 12);
+            ganancias[i] = capitalizar(capital, promedios[i], 12);
         }
 
         return ganancias;
+    }
+
+    private static float capitalizar(float capital, float TNA, int periodos)
+    {
+        float capitalFinal;
+
+        float tasa = (TNA / 100) / periodos;
+        capitalFinal = capital * (float)Math.Pow(1 + tasa, periodos);
+
+        return capitalFinal - capital;
     }
 }
